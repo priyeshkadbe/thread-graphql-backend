@@ -1,9 +1,15 @@
-const queries={
-  
-}
+import { createUserPayload } from '../../interfaces/user.interface';
+import { UserService } from '../../services/';
 
-const mutations={
-  
-}
+const userService = new UserService();
 
-export const resolvers={queries,mutations}
+const queries = {};
+
+const mutations = {
+  createUser: async (_: any, { payload }: { payload: createUserPayload }) => {
+    const res = await userService.create(payload);
+    return res.id;
+  },
+};
+
+export const resolvers = { queries, mutations };

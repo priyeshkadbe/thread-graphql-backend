@@ -3,7 +3,7 @@
 version: '3.8'
 services:
   postgres:
-    container_name : thread-db
+    container_name: thread-db
     image: postgres
     restart: always
     environment:
