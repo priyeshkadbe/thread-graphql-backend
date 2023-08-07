@@ -20,14 +20,6 @@ model User{
 
   @@map("users")
 
-  @before("create")
-  @before("update")
-  static async hashPassword(instance: User) {
-    if (instance.password) {
-      
-      // Hash the password using the new salt
-      instance.password = await bcrypt.hash(instance.password, process.env.SALT);
-    }
-  }
+
 }
 
