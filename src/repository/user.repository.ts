@@ -1,4 +1,5 @@
 import { prismaClient } from '../lib/db';
+import { UserId } from '../interfaces/user.interface';
 
 class UserRepository {
   async create(userData: any) {
@@ -13,7 +14,7 @@ class UserRepository {
     }
   }
 
-  async get(userId: string) {
+  async get(userId: UserId) {
     try {
       const user = await prismaClient.user.findUnique({
         where: {
@@ -26,7 +27,7 @@ class UserRepository {
     }
   }
 
-  async update(userId: string, updatedUserData: any) {
+  async update(userId: UserId, updatedUserData: any) {
     try {
       const user = await prismaClient.user.update({
         where: { id: userId },
@@ -38,7 +39,7 @@ class UserRepository {
     }
   }
 
-  async delete(userId: string) {
+  async delete(userId: UserId) {
     try {
       const user = await prismaClient.user.delete({
         where: { id: userId },

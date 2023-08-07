@@ -5,3 +5,13 @@ export interface createUserPayload {
   email: string;
   password: string;
 }
+
+export type UserId = string;
+
+export interface updateUserPayload {
+  firstName: string;
+  lastName: string;
+  profileImageUrl: string;
+  email: string;
+  password: string;
+}

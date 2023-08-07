@@ -2,7 +2,11 @@ import { UserRepository } from '../repository';
 import crypto from 'node:crypto';
 import bcrypt from 'bcrypt';
 import { serverConfig } from '../config/serverConfig';
-import { createUserPayload } from '../interfaces/user.interface';
+import {
+  createUserPayload,
+  UserId,
+  updateUserPayload,
+} from '../interfaces/user.interface';
 class UserService {
   private userRepository: UserRepository;
 
@@ -26,7 +30,7 @@ class UserService {
         email,
         salt,
       });
-      return user;
+      return user.id;
     } catch (error) {
       console.log('something went wrong in the service layer ', error);
       throw { error };
