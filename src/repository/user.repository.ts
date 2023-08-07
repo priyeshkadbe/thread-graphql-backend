@@ -1,13 +1,16 @@
 import { prismaClient } from '../lib/db';
 import { UserId } from '../interfaces/user.interface';
+import {createUserPayload} from "../interfaces/user.interface"
 
 class UserRepository {
-  async create(userData: any) {
+  
+  async create(userData:any) {
+    console.log('user repo data',userData)
     try {
-      const user = await prismaClient.user.create({
+      const user=await prismaClient.user.create({
         data: userData,
       });
-      return user.id;
+      return user.id
     } catch (error) {
       console.log('something went wrong in the user repository', error);
       throw { error };
@@ -27,13 +30,24 @@ class UserRepository {
     }
   }
 
+  async getUserByEmail(email:string) {
+    try {
+      const user = await prismaClient.user.findUnique({
+        where: {
+         email 
+        },
+      });
+      return user;
+    } catch (error) {
+      console.log('something went wrong in the user repository');
+    }
+  }
   async update(userId: UserId, updatedUserData: any) {
     try {
-      const user = await prismaClient.user.update({
+       return await prismaClient.user.update({
         where: { id: userId },
         data: updatedUserData,
       });
-      return user;
     } catch (error) {
       console.log('something went wrong in the user repository');
     }

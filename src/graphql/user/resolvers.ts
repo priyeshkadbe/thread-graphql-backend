@@ -8,7 +8,8 @@ const queries = {
 };
 
 const mutations = {
-  createUser: async (_: any, { payload }: { payload: createUserPayload }) => {
+  createUser: async (_: any, payload: createUserPayload ) => {
+    console.log('payload',payload)
     const res = await userService.create(payload);
     return res;
   },

@@ -4,21 +4,20 @@ import { User } from './user';
 async function prepareAndStartGraphQLServer() {
 const gqlServer = new ApolloServer({
     typeDefs: `
-            ${User.typeDefs}
-            type Query {
-               ${User.queries}
-            }
+      type Query{
+        hello:String
+      }   
 
-            type Mutation {
-               ${User.mutations}
-            }
-        `,
+      type Mutation{
+        ${User.mutations}   
+      }
+    `,
     resolvers: {
       Query: {
-        ...User.resolvers.queries,
+        ...User.resolvers.queries
       },
       Mutation: {
-        ...User.resolvers.mutations,
+        ...User.resolvers.mutations
       },
     },
   });
