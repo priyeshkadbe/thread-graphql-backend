@@ -16,6 +16,7 @@ class UserService {
 
   async create(payload: createUserPayload) {
     const { firstName, lastName, profileImageUrl, email, password } = payload;
+    
     const salt = crypto
       .randomBytes(Number(serverConfig.RANDOM_BYTES))
       .toString('hex');
@@ -30,7 +31,7 @@ class UserService {
         email,
         salt,
       });
-      return user.id;
+      return user;
     } catch (error) {
       console.log('something went wrong in the service layer ', error);
       throw { error };

@@ -7,7 +7,7 @@ class UserRepository {
       const user = await prismaClient.user.create({
         data: userData,
       });
-      return user;
+      return user.id;
     } catch (error) {
       console.log('something went wrong in the user repository', error);
       throw { error };

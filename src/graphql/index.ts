@@ -2,15 +2,17 @@ import { ApolloServer } from '@apollo/server';
 import { User } from './user';
 
 async function prepareAndStartGraphQLServer() {
-  const gqlServer = new ApolloServer({
+const gqlServer = new ApolloServer({
     typeDefs: `
-        type Query{
-          ${User.queries}
-        }
-        type Mutation{
-          ${User.mutations}
-        }
-    `,
+            ${User.typeDefs}
+            type Query {
+               ${User.queries}
+            }
+
+            type Mutation {
+               ${User.mutations}
+            }
+        `,
     resolvers: {
       Query: {
         ...User.resolvers.queries,
@@ -20,7 +22,8 @@ async function prepareAndStartGraphQLServer() {
       },
     },
   });
-
+  
+  await gqlServer.start()
   return gqlServer;
 }
 
