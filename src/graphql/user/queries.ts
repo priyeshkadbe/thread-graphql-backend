@@ -1,1 +1,4 @@
-export const queries = ``;
+export const queries = `
+
+signIn(email:String!,password:String!):String
+`;

@@ -45,23 +45,24 @@ class UserService {
 
   async signIn({email,password}:userSignInPayload){
    try {
-      const user= this.userRepository.getUserByEmail(email)
-     if(!user){
-        return 'user does not exit'
-        throw {error:'user does not exit'}
-     }
-     const passwordMatch= this.#comparePassword(password,user.password);
-     if(!passwordMatch){
-       return 'incorrect password'
-       throw {error:'incorrect password'};
-     }
- const newJwt = this.createToken({
-        email: user.email,
-        id: user.id,
-      });
+      const user= await this.userRepository.getUserByEmail(email)
+      
+      if(!user){
+        throw new Error("user does not exits");
+      }
+      
+      const passwordMatch=this.#checkPassword(password,user.password)
+      if(!passwordMatch) {
+        throw Error("password didnt match ")
+      }
+      //   const newJwt = this.createToken({
+      //   email: user.email ,
+      //   id: user.id ,
+      // });
+          const newJwt = this.#createToken({ email: user.email as string, id: user.id as string });
+
       return newJwt;
 
-     
    } catch (error) {
        console.log('something went wrong in the service layer ', error);
        throw { error };
@@ -69,7 +70,7 @@ class UserService {
    } 
   }
 
-  async #comparePassword(plainPassword:string,encryptedPassword:string){
+  #checkPassword(plainPassword:string,encryptedPassword:string){
     try {
         return  bcrypt.compareSync(plainPassword,encryptedPassword)
     } catch (error) {
@@ -79,9 +80,9 @@ class UserService {
     }
   }
 
-  createToken(user:userSignInPayload) {
+  #createToken(user: { email: string; id: string }) {
     try {
-      const result = jwt.sign(user, serverConfig.JWT_KEY, { expiresIn: "1h" });
+      const result = jwt.sign(user, serverConfig.JWT_KEY as jwt.Secret, { expiresIn: "1h" });
       return result;
     } catch (error) {
       console.log("something went wrong in the token creation");

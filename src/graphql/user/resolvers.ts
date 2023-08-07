@@ -1,10 +1,13 @@
-import { createUserPayload } from '../../interfaces/user.interface';
+import { createUserPayload,userSignInPayload } from '../../interfaces/user.interface';
 import { UserService } from '../../services/';
 
 const userService = new UserService();
 
 const queries = {
-  
+  signIn:async(_:any,payload:userSignInPayload)  =>{
+    const res = await userService.signIn(payload);
+    return res;
+  }
 };
 
 const mutations = {
