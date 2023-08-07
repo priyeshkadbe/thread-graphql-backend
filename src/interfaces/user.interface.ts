@@ -15,3 +15,8 @@ export interface updateUserPayload {
   email: string;
   password: string;
 }
+
+export interface userSignInPayload{
+  email:string;
+  password:string;
+}
