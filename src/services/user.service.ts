@@ -8,7 +8,7 @@ import {
 import bcrypt from "bcrypt"
 import {hashPassword} from "../utils/hashPassword"
 import {serverConfig} from "../config/serverConfig"
-import jwt from 'jsonwebtoken'
+import jwt,{JwtPayload} from 'jsonwebtoken'
 
 class UserService {
   private userRepository: UserRepository;
@@ -69,7 +69,27 @@ class UserService {
    
    } 
   }
+ 
+  async isAuthenticated(token:string){
+       try {
+      const response = this.#verifyToken(token);
+      if (!response) {
+        throw { error: "invalid token" };
+      }
+     const jwtPayload = response as JwtPayload;
 
+      const user = await this.userRepository.getUserByEmail(jwtPayload.email);
+      if (!user) {
+        throw { error: "No user with corresponding token exists" };
+      }
+      return user;
+    } catch (error) {
+      console.log("something went wrong in the auth process");
+      throw { error };
+    }
+  
+  }
+  
   #checkPassword(plainPassword:string,encryptedPassword:string){
     try {
         return  bcrypt.compareSync(plainPassword,encryptedPassword)
@@ -89,7 +109,17 @@ class UserService {
       throw { error };
     }
   }
+  
+  async #verifyToken(token:string): Promise<JwtPayload>{
+        try {
+      const response = await jwt.verify(token, serverConfig.JWT_KEY as jwt.Secret );
+      return response as JwtPayload;
+    } catch (error) {
+      console.log("something went wrong in token validation");
+      throw { error };
+    }
 
+  }
 
 }
 

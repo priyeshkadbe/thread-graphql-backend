@@ -1,4 +1,4 @@
 export const queries = `
-
-signIn(email:String!,password:String!):String
+  signIn(email:String!,password:String!):String
+  isAuthenticated:String
 `;

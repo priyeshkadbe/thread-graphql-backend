@@ -7,6 +7,10 @@ const queries = {
   signIn:async(_:any,payload:userSignInPayload)  =>{
     const res = await userService.signIn(payload);
     return res;
+  },
+  isAuthenticated:async(_:any,paramter:any,context:any)=>{
+    console.log('context',context)
+    throw new Error("I dont know who you are")
   }
 };
 
